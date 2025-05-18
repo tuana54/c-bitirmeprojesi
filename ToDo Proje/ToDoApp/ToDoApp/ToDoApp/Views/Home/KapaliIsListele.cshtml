@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "KapaliIsListele";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Tamamlanan İşlerim</h1>
+            </div>
+
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- Content Header (Page header) -->
+
+
+
+<div class="card-body">
+    <table id="example2" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>İş Adı</th>
+                <th>Durum</th>
+                <th>Bitiş Tarihi</th>
+                <th>Oluşturulma Tarihi</th>
+                <th>İşlemler</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ToDoApp.Models.isler item in ViewBag.isler)
+            {
+                string tamamlandigi_tarih;
+                string durumParametre = "";
+
+                if (Convert.ToInt32(item.durum) == 1)
+                {
+                    item.durum = "Açık İş";
+                }
+                else
+                {
+                    item.durum = "Kapalı İş";
+                    durumParametre = "disabled";
+                }
+
+                if (item.tamamlandigi_tarih.ToString() == "")
+                {
+                    tamamlandigi_tarih = "-";
+                }
+                else
+                {
+                    tamamlandigi_tarih = item.tamamlandigi_tarih.ToString();
+                }
+
+                string YenidenAc = "YenidenAc" + item.id;
+                <tr>
+                    <td>@item.id</td>
+                    <td>@item.is_adi</td>
+                    <td>@item.durum</td>
+                    <td>@tamamlandigi_tarih</td>
+                    <td>@item.olusturuldugu_tarih</td>
+                    <td>
+
+
+                        <button class="btn btn-success" data-toggle="modal" data-target="#@YenidenAc"><i class="fa fa-recycle"></i> İşi Yeniden Aç</button>
+
+
+                        <!-- /.isiyenidenac-modal -->
+                        <div class="modal fade" id="@YenidenAc">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Kapatma İşlemi</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="form-group">
+                                            <label for="exampleInputIsinAdi">İşi Yeniden Açmak istediğinize emin misiniz?</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+
+                                        <a href="/Home/IsiYenidenAc/@item.id" class="btn btn-success"><i class="fa fa-check-double"></i> Yeniden Aç</a>
+
+                                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Kapat</button>
+
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.isiyenidenac-modal -->
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>No</th>
+                <th>İş Adı</th>
+                <th>Durum</th>
+                <th>Bitiş Tarihi</th>
+                <th>Oluşturulma Tarihi</th>
+                <th>İşlemler</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
